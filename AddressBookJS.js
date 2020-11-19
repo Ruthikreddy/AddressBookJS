@@ -19,7 +19,6 @@ class Contact {
     
     get address() {return this._address;}
     set address(address) {this._address = address; }
-    
     get city() {return this._city;}
     set city(city) {this._city = city;}
     
