@@ -48,14 +48,14 @@ class Contact {
   
   get zip() {return this._zip;}
   set zip(zip) {
-      const pinRegex = RegExp("^([1-9])(\\S){2}(\\s)?\\S{2}[0-9]$");
+      const pinRegex = RegExp("^[0-9]{6}$");
       if(pinRegex.test(zip))this._zip = zip;
       else throw "Zip is Invalid";
   }
   
   get phoneNo() {return this._phoneNo;}
   set phoneNo(phoneNo) {
-      const phoneRegex = RegExp("^\\d{2} [1-9]\\d{9}$");
+      const phoneRegex = RegExp("^([+][0-9]{2})?[0-9]{10}$");
       if(phoneRegex.test(phoneNo)) this._phoneNo = phoneNo;
       else throw "Invalid Phone No";
   }
@@ -73,7 +73,7 @@ class Contact {
   }
 }  
 try{
-let contact = new Contact("Ruthik", "Reddy", "Miyapur", "Hyderabad", "Telangana", "500049", "91 8950887489", "ruthik@gmail.com");
+let contact = new Contact("Ruthik", "Reddy", "Miyapur", "Hyderabad", "Telangana", "500049", "8950887489", "ruthik@gmail.com");
 console.log(contact.toString());
 }catch(e){
   console.error(e);
