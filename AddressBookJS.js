@@ -77,6 +77,13 @@ let addressBookArr = new Array();
 function contactExists(fName, lName){
   return addressBookArr.some(u => u.firstName == fName && u.lastName == lName);
 }
+function addContact(newContact){
+    if(contactExists(newContact.firstName, newContact.lastName)){
+        throw "Already Present";
+    }else{
+        addressBookArr.push(newContact);
+    }
+ }
 
 function editContact(fName, lName, property, value){
   if(contactExists(fName, lName)){
@@ -120,15 +127,17 @@ function countContact(count) {
     count += 1;
     return count;
 }
+let contact1 = new Contact("Ruthik", "Reddy", "Miyapur", "Hyderabad", "Telangana", "500049", "9789887766", "ruthik@gmail.com");
+ let contact2 = new Contact("Mahesh", "Reddy", "County", "Hyderabad", "Telangana", "500049", "9080745850", "mahesh@gmail.com");
+ try{
+    addressBookArr.push(contact1);
+ }catch(e){
+     console.error(e);
+ }
 try{
-addressBookArr.push(new Contact("Ruthik", "Reddy", "Miyapur", "Hyderabad", "Telangana", "500049", "9100887766", "ruthik@gmail.com"));
+    addressBookArr.push(contact2);
 }catch(e){
-   console.error(e);
-}
-try{
-  addressBookArr.push(new Contact("Mahesh", "Reddy", "County", "Hyderabad", "Telangana", "500049", "9080706050", "mahesh@gmail.com"));
-}catch(e){
-  console.error(e);
+    console.error(e);
 }
 console.log(addressBookArr);
 
@@ -139,3 +148,9 @@ deleteContact("Mahesh", "Reddy");
 console.log(addressBookArr);
 
 console.log("No of contacts : "+ addressBookArr.reduce(countContact, 0));
+
+try{
+    addContact(contact1);
+    }catch(e){
+        console.error(e);
+}
