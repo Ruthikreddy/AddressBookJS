@@ -48,14 +48,14 @@ class Contact {
   
   get zip() {return this._zip;}
   set zip(zip) {
-      const pinRegex = RegExp("^([1-9])(\\S){2}(\\s)?\\S{2}[0-9]$");
+      const pinRegex = RegExp("^[0-9]{6}$");
       if(pinRegex.test(zip))this._zip = zip;
       else throw "Zip is Invalid";
   }
   
   get phoneNo() {return this._phoneNo;}
   set phoneNo(phoneNo) {
-      const phoneRegex = RegExp("^\\d{2} [1-9]\\d{9}$");
+      const phoneRegex = RegExp("^([+][0-9]{2})?[0-9]{10}$");
       if(phoneRegex.test(phoneNo)) this._phoneNo = phoneNo;
       else throw "Invalid Phone No";
   }
@@ -71,10 +71,119 @@ class Contact {
       return "First Name : "+ this.firstName + ", Last Name : "+ this.lastName + ", Address : "+ this.address + 
       ", city : "+ this.city + ", State : "+ this.state +", Zip : "+ this.zip+ ", Phone No : "+ this.phoneNo + ", Email : "+ this.email;
   }
-}  
-try{
-let contact = new Contact("Ruthik", "Reddy", "Miyapur", "Hyderabad", "Telangana", "500049", "91 8950887489", "ruthik@gmail.com");
-console.log(contact.toString());
-}catch(e){
-  console.error(e);
+} 
+
+let addressBookArr = new Array();
+let contactsCityMap = new Map();
+ let contactsStateMap = new Map();
+ let countCityMap = new Map();
+ let countStateMap = new Map();
+function contactExists(fName, lName){
+  return addressBookArr.some(u => u.firstName == fName && u.lastName == lName);
 }
+function addContact(newContact){
+    if(contactExists(newContact.firstName, newContact.lastName)){
+        throw "Already Present";
+    }else{
+        addressBookArr.push(newContact);
+    }
+ }
+
+function editContact(fName, lName, property, value){
+  if(contactExists(fName, lName)){
+  switch(property){
+      case "address":
+          addressBookArr.find((contact) => contact.firstName == fName).address = value;
+          break;
+      case "city":
+          addressBookArr.find((contact) => contact.firstName == fName).city = value;
+          break;
+      case "state":
+          addressBookArr.find((contact) => contact.firstName == fName).state = value;
+          break;
+      case "zip":
+          addressBookArr.find((contact) => contact.firstName == fName).zip = value;
+          break;
+      case "phone":
+          addressBookArr.find((contact) => contact.firstName == fName).phoneNo = value;
+          break;
+      case "email":
+          addressBookArr.find((contact) => contact.firstName == fName).email = value;
+          break;
+      default:
+          console.log("Enter valid property");
+  }
+}else{
+    console.log("Contact Does Not Exist");
+}
+}
+
+function deleteContact(fName,lName){
+    let deleteContact = contactExists(fName,lName);
+    if(contactExists(fName,lName)){
+        addressBookArr.pop(contactExists(fName,lName));
+     console.log("Contact "+fName+" "+lName+" removed successfully!!");
+ }  else{
+     console.log("Contact "+fName+" "+lName+" does not exist!");
+ }
+}
+function countContact(count) {
+    count += 1;
+    return count;
+}
+function searchContactByCity(city) {
+    return addressBookArr.filter((contact) => contact.city == city);
+  }
+
+function searchContactByState(state) {
+    return addressBookArr.filter((contact) => contact.state == state);
+  }
+function viewContactsByCity(){
+    addressBookArr.filter((contact) => contactsCityMap.set(contact.city, searchContactByCity(contact.city)));
+    return contactsCityMap;
+}
+
+function viewContactsByState(){
+    addressBookArr.filter((contact) => contactsCityMap.set(contact.state, searchContactByCity(contact.state)));
+    return contactsStateMap;
+}
+function countByCity(){
+    addressBookArr.filter((contact) => countCityMap.set(contact.city, searchContactByCity(contact.city).length));
+    return countCityMap;
+}
+
+function countByState(){
+    addressBookArr.filter((contact) => countStateMap.set(contact.state, searchContactByCity(contact.state).length));
+    return countStateMap;
+}
+
+let contact1 = new Contact("Ruthik", "Reddy", "Miyapur", "Hyderabad", "Telangana", "500049", "9789887766", "ruthik@gmail.com");
+ let contact2 = new Contact("Mahesh", "Reddy", "County", "Hyderabad", "Telangana", "500049", "9080745850", "mahesh@gmail.com");
+ try{
+    addressBookArr.push(contact1);
+ }catch(e){
+     console.error(e);
+ }
+try{
+    addressBookArr.push(contact2);
+}catch(e){
+    console.error(e);
+}
+console.log(addressBookArr);
+
+//editContact("Mahesh", "Reddy", "address", "Bihar");
+//console.log(addressBookArr);
+
+//deleteContact("Mahesh", "Reddy");
+console.log(addressBookArr);
+
+console.log("No of contacts : "+ addressBookArr.reduce(countContact, 0));
+
+try{
+    addContact(contact1);
+    }catch(e){
+        console.error(e);
+}
+console.log(searchContactByCity("Hyderabad"));
+console.log(viewContactsByCity());
+console.log(countByCity());
