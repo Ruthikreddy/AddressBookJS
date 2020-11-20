@@ -127,6 +127,7 @@ function deleteContact(fName,lName){
      console.log("Contact "+fName+" "+lName+" does not exist!");
  }
 }
+
 function countContact(count) {
     count += 1;
     return count;
@@ -157,8 +158,27 @@ function countByState(){
     return countStateMap;
 }
 
+function sortContact(property){
+    switch(property){
+        case "city":
+            addressBookArr.sort((person1, person2) => (person1.city).localeCompare(person2.city));
+            return addressBookArr;
+            break;
+        case "state":
+            addressBookArr.sort((person1, person2) => (person1.state).localeCompare(person2.state));
+            return addressBookArr;
+            break;
+        case "zip":
+            addressBookArr.sort((person1, person2) => (person1.zip).localeCompare(person2.zip));
+            return addressBookArr;
+            break;
+        default:
+            console.log("Enter Valid Property");
+    }
+}
+
 let contact1 = new Contact("Ruthik", "Reddy", "Miyapur", "Hyderabad", "Telangana", "500049", "9789887766", "ruthik@gmail.com");
- let contact2 = new Contact("Mahesh", "Reddy", "County", "Hyderabad", "Telangana", "500049", "9080745850", "mahesh@gmail.com");
+ let contact2 = new Contact("Mahesh", "Reddy", "County", "Hyderabad", "Aelangana", "100049", "9080745850", "mahesh@gmail.com");
  try{
     addressBookArr.push(contact1);
  }catch(e){
@@ -191,3 +211,6 @@ console.log(viewContactsByCity());
 addressBookArr.sort((person1, person2) => (person1.firstName).localeCompare(person2.firstName));
  console.log(addressBookArr); 
 
+ 
+ console.log(sortContact("state"));
+ console.log(sortContact("zip"));
