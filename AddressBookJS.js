@@ -185,5 +185,9 @@ try{
         console.error(e);
 }
 console.log(searchContactByCity("Hyderabad"));
+
 console.log(viewContactsByCity());
-console.log(countByCity());
+//UC11
+addressBookArr.sort((person1, person2) => (person1.firstName).localeCompare(person2.firstName));
+ console.log(addressBookArr); 
+
